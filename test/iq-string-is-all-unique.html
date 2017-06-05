@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>iq-default-view</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+
+    <!-- Import the element to test -->
+    <link rel="import" href="../src/iq-string-is-all-unique.html">
+  </head>
+  <body>
+    <test-fixture id="BasicView">
+      <template>
+        <iq-string-is-all-unique></iq-string-is-all-unique>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('iq-string-is-all-unique tests', function() {
+        test('Empty string should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique(''));
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="iq-string-is-all-unique">
+    <template>
+        <style include="shared-styles">
+        :host {
+            display: block;
+
+            padding: 10px;
+        }
+        </style>
+
+        <div class="card">
+        <div class="circle">1</div>
+            <h1>String With All Unique Characters</h1>
+        </div>
+    </template>
+    <script>
+        class StringIsAllUnique extends Polymer.Element {
+            static get is() { return 'iq-string-is-all-unique'; }
+
+            areAllCharactersUnique(theString) {
+                if(theString === '' || theString === undefined) {
+                    return false;    
+                }
+            }
+        }
+
+        window.customElements.define(StringIsAllUnique.is, StringIsAllUnique);
+    </script>
+</dom-module>

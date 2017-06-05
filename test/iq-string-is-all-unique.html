@@ -21,10 +21,47 @@
 
     <script>
       suite('iq-string-is-all-unique tests', function() {
+        
+        test('All unique characters should return true.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique('abcdefghijklmnop'));
+        });
+
+        test('Single character should return true.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique('a'));
+        });
+
+        test('String with duplicate character should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique('abcddefg'));
+        });
+
+        test('Two character string with duplicate characters should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique('bb'));
+        });
+
+        test('String with two spaces but no duplicate characters should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique('abc def ghikl'));
+        });
+        
+        test('No value should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique());
+        });
+
+        test('Null value should return false.', function() {
+          var myView = fixture('BasicView');
+          assert.isFalse(myView.areAllCharactersUnique(null));
+        });
+
         test('Empty string should return false.', function() {
           var myView = fixture('BasicView');
           assert.isFalse(myView.areAllCharactersUnique(''));
         });
+
       });
     </script>
   </body>

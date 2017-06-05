@@ -69,9 +69,31 @@
             }
 
             areAllCharactersUnique(theString) {
-                if (theString === '' || theString === undefined) {
-                    return false;
+
+                // validate input
+                if(theString === '' || theString === undefined || theString === null) {
+                    return false;    
                 }
+
+                // if the string contains just a single character we can return true and saving processing time
+                if(theString.length == 1) {
+                    return true;
+                }
+
+                // use a hashmap to count the number of each character in the string
+                let charCount = new Map();
+
+                // iterate through all characters in the string, adding them to the hashmap
+                for(var i =0; i < theString.length; i++) {
+                    let char = theString[i];
+
+                    // check to see if this character has already been counted in the hashmap, if so the string does not contain all unique characters
+                    if(charCount.get(char) !== undefined) {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             runTests() {

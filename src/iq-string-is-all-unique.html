@@ -12,34 +12,30 @@
         </style>
 
         <div class="card">
-            <div class="circle">1</div>
-            <h1>String With All Unique Characters</h1>
+            <h2>String With All Unique Characters</h2>
+            <p>
+                Write a function to determine if all characters in a string are unique.
+            </p>
         </div>
         <div class="card">
+            <h2>Test results</h2>
             <div role="listbox">
                 <template is="dom-repeat" items="{{testResults}}">
                     <paper-icon-item>
-                        <div class="test-result success"></div>
+                        <template is="dom-if" if="{{item.success}}">
+                            <div class="test-result success"></div>
+                        </template>
+                        <template is="dom-if" if="{{!item.success}}">
+                            <div class="test-result failure"></div>
+                        </template>
                         <paper-item-body two-line>
                             <div>{{item.name}}</div>
-                            <div secondary>{{item.description}}</div>
+                            <template is="dom-if" if="{{!item.success}}">
+                                <div secondary>{{item.description}}</div>
+                            </template>
                         </paper-item-body>
                     </paper-icon-item>
                 </template>
-                <paper-icon-item>
-                    <div class="test-result success"></div>
-                    <paper-item-body two-line>
-                        <div>Photos</div>
-                        <div secondary>Jan 9, 2014</div>
-                    </paper-item-body>
-                </paper-icon-item>
-                <paper-icon-item>
-                    <div class="test-result failure"></div>
-                    <paper-item-body two-line>
-                        <div>Recipes</div>
-                        <div secondary>Jan 17, 2014</div>
-                    </paper-item-body>
-                </paper-icon-item>
             </div>
         </div>
     </template>
@@ -52,12 +48,7 @@
                     testResults: {
                         type: Array,
                         value() {
-                            return [
-                                { name: 'test1', description: 'desc 1' },
-                                { name: 'test2', description: 'desc 2' },
-                                { name: 'test3', description: 'desc 3' },
-                                { name: 'test4', description: 'desc 4' }
-                            ]
+                            return []
                         }
                     }
                 }
@@ -68,6 +59,11 @@
                 this.runTests();
             }
 
+            /*
+                Function to validate if all characters in a string are unique.
+                Returns true if all characters are unique.
+                Returns false if there are duplicate characters or bad input.
+            */
             areAllCharactersUnique(theString) {
 
                 // validate input
@@ -97,7 +93,45 @@
             }
 
             runTests() {
+                this.push('testResults', {
+                    success: this.areAllCharactersUnique('abcdefghijklmnop'),
+                    name: 'All unique characters should return true.'
+                });
 
+                this.push('testResults', {
+                    success: this.areAllCharactersUnique('a'),
+                    name: 'Single character should return true.'
+                });
+
+                this.push('testResults', {
+                    success: this.areAllCharactersUnique('abcddefg'),
+                    name: 'String with duplicate character should return false.'
+                });
+
+                this.push('testResults', {
+                    success: this.areAllCharactersUnique('bb'),
+                    name: 'Two character string with duplicate characters should return false.'
+                });
+
+                this.push('testResults', {
+                    success: this.areAllCharactersUnique('abc def ghikl'),
+                    name: 'String with two spaces but no duplicate characters should return false.'
+                });
+
+                this.push('testResults', {
+                    success: !this.areAllCharactersUnique(),
+                    name: 'No value should return false.'
+                });
+
+                this.push('testResults', {
+                    success: !this.areAllCharactersUnique(null),
+                    name: 'Null value should return false.'
+                });
+
+                this.push('testResults', {
+                    success: !this.areAllCharactersUnique(''),
+                    name: 'Empty string should return false.'
+                });
             }
         }
 

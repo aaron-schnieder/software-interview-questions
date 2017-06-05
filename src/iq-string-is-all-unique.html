@@ -1,29 +1,81 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="iq-string-is-all-unique">
     <template>
         <style include="shared-styles">
-        :host {
-            display: block;
-
-            padding: 10px;
-        }
+             :host {
+                display: block;
+                padding: 10px;
+            }
         </style>
 
         <div class="card">
-        <div class="circle">1</div>
+            <div class="circle">1</div>
             <h1>String With All Unique Characters</h1>
+        </div>
+        <div class="card">
+            <div role="listbox">
+                <template is="dom-repeat" items="{{testResults}}">
+                    <paper-icon-item>
+                        <div class="test-result success"></div>
+                        <paper-item-body two-line>
+                            <div>{{item.name}}</div>
+                            <div secondary>{{item.description}}</div>
+                        </paper-item-body>
+                    </paper-icon-item>
+                </template>
+                <paper-icon-item>
+                    <div class="test-result success"></div>
+                    <paper-item-body two-line>
+                        <div>Photos</div>
+                        <div secondary>Jan 9, 2014</div>
+                    </paper-item-body>
+                </paper-icon-item>
+                <paper-icon-item>
+                    <div class="test-result failure"></div>
+                    <paper-item-body two-line>
+                        <div>Recipes</div>
+                        <div secondary>Jan 17, 2014</div>
+                    </paper-item-body>
+                </paper-icon-item>
+            </div>
         </div>
     </template>
     <script>
         class StringIsAllUnique extends Polymer.Element {
             static get is() { return 'iq-string-is-all-unique'; }
 
-            areAllCharactersUnique(theString) {
-                if(theString === '' || theString === undefined) {
-                    return false;    
+            static get properties() {
+                return {
+                    testResults: {
+                        type: Array,
+                        value() {
+                            return [
+                                { name: 'test1', description: 'desc 1' },
+                                { name: 'test2', description: 'desc 2' },
+                                { name: 'test3', description: 'desc 3' },
+                                { name: 'test4', description: 'desc 4' }
+                            ]
+                        }
+                    }
                 }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.runTests();
+            }
+
+            areAllCharactersUnique(theString) {
+                if (theString === '' || theString === undefined) {
+                    return false;
+                }
+            }
+
+            runTests() {
+
             }
         }
 

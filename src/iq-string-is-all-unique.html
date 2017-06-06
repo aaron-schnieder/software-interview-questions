@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="iq-code-editor.html">
 
 <dom-module id="iq-string-is-all-unique">
     <template>
@@ -16,6 +17,10 @@
             <p>
                 Write a function to determine if all characters in a string are unique.
             </p>
+            <iq-code-editor
+                function-name="areAllCharactersUnique"
+                variable-name="theString"
+            ></iq-code-editor>
         </div>
         <div class="card">
             <h2>Test results</h2>
@@ -56,7 +61,12 @@
 
             connectedCallback() {
                 super.connectedCallback();
+                this.shadowRoot.querySelector('iq-code-editor').addEventListener('checkCode', this.checkCode);
                 this.runTests();
+            }
+
+            checkCode(e) {
+                console.log(eval("("+ e.detail.code +")('bob');"));
             }
 
             /*

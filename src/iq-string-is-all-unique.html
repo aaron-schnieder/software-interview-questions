@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="iq-code-editor.html">
+<link rel="import" href="iq-test-results.html">
 
 <dom-module id="iq-string-is-all-unique">
     <template>
@@ -18,30 +18,18 @@
                 Write a function to determine if all characters in a string are unique.
             </p>
             <iq-code-editor
-                function-name="areAllCharactersUnique"
-                variable-name="theString"
+                id="userLandCode"
+                content="function areAllCharactersUnique(theString) {}"
             ></iq-code-editor>
+            <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
         </div>
         <div class="card">
-            <h2>Test results</h2>
-            <div role="listbox">
-                <template is="dom-repeat" items="{{testResults}}">
-                    <paper-icon-item>
-                        <template is="dom-if" if="{{item.success}}">
-                            <div class="test-result success"></div>
-                        </template>
-                        <template is="dom-if" if="{{!item.success}}">
-                            <div class="test-result failure"></div>
-                        </template>
-                        <paper-item-body two-line>
-                            <div>{{item.name}}</div>
-                            <template is="dom-if" if="{{!item.success}}">
-                                <div secondary>{{item.description}}</div>
-                            </template>
-                        </paper-item-body>
-                    </paper-icon-item>
-                </template>
-            </div>
+            <h2>Example Solution</h2>
+            <iq-code-editor 
+                id="exampleSolutionCode"
+                content="[[exampleSolution]]">
+            </iq-code-editor>
+            <iq-test-results test-results="{{testResults}}"></iq-test-results>
         </div>
     </template>
     <script>
@@ -55,18 +43,32 @@
                         value() {
                             return []
                         }
+                    },
+                    exampleSolution: {
+                        type: String,
+                        computed: 'computeExampleSolution()'
+                    },
+                    userlandSolutionTestResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
                     }
                 }
             }
 
             connectedCallback() {
                 super.connectedCallback();
-                this.shadowRoot.querySelector('iq-code-editor').addEventListener('checkCode', this.checkCode);
-                this.runTests();
+                this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
+                this.runTests(this.computeExampleSolution(), 'testResults');
             }
 
             checkCode(e) {
-                console.log(eval("("+ e.detail.code +")('bob');"));
+                this.runTests(e.detail.code, 'userlandSolutionTestResults');
+            }
+
+            computeExampleSolution() {
+                return "function " + this.areAllCharactersUnique.toString();
             }
 
             /*
@@ -102,45 +104,28 @@
                 return true;
             }
 
-            runTests() {
-                this.push('testResults', {
-                    success: this.areAllCharactersUnique('abcdefghijklmnop'),
-                    name: 'All unique characters should return true.'
-                });
+            runTests(fn, resultStoreName) {
+                // set of tests to validate if the function solves the problem
+                this.evalTest(fn, "abcdefghijklmnop", 'All unique characters should return true.', true, resultStoreName);
+                this.evalTest(fn, "a", 'Single character should return true.', true, resultStoreName);
+                this.evalTest(fn, "abcddefg", 'String with duplicate character should return false.', true, resultStoreName);
+                this.evalTest(fn, "bb", 'Two character string with duplicate characters should return false.', true, resultStoreName);
+                this.evalTest(fn, "abc def ghikl", 'String with two spaces but no duplicate characters should return false.', true, resultStoreName);
+                this.evalTest(fn, "", 'No value should return false.', false, resultStoreName);
+                this.evalTest(fn, null, 'Null value should return false.', false, resultStoreName);
+                this.evalTest(fn, undefined, 'undefined should return false.', false, resultStoreName);
+            }
 
-                this.push('testResults', {
-                    success: this.areAllCharactersUnique('a'),
-                    name: 'Single character should return true.'
-                });
+            evalTest(fn, param, name, expectedResult, resultStoreName) {
+                // if the param type is a string, we need to wrap it in single quotes so it is passed as a string when the function is evaled
+                if(typeof param === "string") {
+                    param = "'" + param + "'";
+                }
 
-                this.push('testResults', {
-                    success: this.areAllCharactersUnique('abcddefg'),
-                    name: 'String with duplicate character should return false.'
-                });
-
-                this.push('testResults', {
-                    success: this.areAllCharactersUnique('bb'),
-                    name: 'Two character string with duplicate characters should return false.'
-                });
-
-                this.push('testResults', {
-                    success: this.areAllCharactersUnique('abc def ghikl'),
-                    name: 'String with two spaces but no duplicate characters should return false.'
-                });
-
-                this.push('testResults', {
-                    success: !this.areAllCharactersUnique(),
-                    name: 'No value should return false.'
-                });
-
-                this.push('testResults', {
-                    success: !this.areAllCharactersUnique(null),
-                    name: 'Null value should return false.'
-                });
-
-                this.push('testResults', {
-                    success: !this.areAllCharactersUnique(''),
-                    name: 'Empty string should return false.'
+                // wrap the function string in an IIFE, passing in the param and then eval the string to execute the function
+                this.push(resultStoreName, {
+                    success: eval("("+ fn + ")(" + param + ");") === expectedResult,
+                    name: name
                 });
             }
         }

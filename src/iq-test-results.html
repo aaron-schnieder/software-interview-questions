@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="codemirror-styles.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<dom-module id="iq-test-results">
+    <template>
+        <style include="shared-styles">
+             :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <div role="listbox">
+            <template is="dom-repeat" items="{{testResults}}">
+                <paper-icon-item>
+                    <template is="dom-if" if="{{item.success}}">
+                        <div class="test-result success"></div>
+                    </template>
+                    <template is="dom-if" if="{{!item.success}}">
+                        <div class="test-result failure"></div>
+                    </template>
+                    <paper-item-body two-line>
+                        <div>{{item.name}}</div>
+                        <template is="dom-if" if="{{!item.success}}">
+                            <div secondary>{{item.description}}</div>
+                        </template>
+                    </paper-item-body>
+                </paper-icon-item>
+            </template>
+        </div>
+    </template>
+    <script>
+        class TestResults extends Polymer.Element {
+            static get is() { return 'iq-test-results'; }
+
+            static get properties() {
+                return {
+                    testResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    }
+                }
+            }
+        }
+
+        window.customElements.define(TestResults.is, TestResults);
+    </script>
+</dom-module>

@@ -17,13 +17,8 @@
 
             static get properties() {
                 return {
-                    functionName: {
-                        type: String,
-                        value: "solution"
-                    },
-                    variableName: {
-                        type: String,
-                        value: "someVariable"
+                    content: {
+                        type: String
                     },
                     codeEditor: {
                         type: CodeMirror
@@ -46,7 +41,7 @@
                     theme: "material"
                 });
 
-                this.codeEditor.setValue("function " + this.functionName + "(" + this.variableName + ") {\n\n}");
+                this.codeEditor.setValue(this.content);
             }
         }
 

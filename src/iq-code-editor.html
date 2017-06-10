@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="codemirror-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/codemirror.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.26.0/mode/javascript/javascript.js"></script>
@@ -7,9 +8,15 @@
 <dom-module id="iq-code-editor">
     <template>
         <style include="codemirror-styles">
+            :host, .validateCode  {
+                display: block;
+                padding: 16px 0px;
+            }
         </style>
         <textarea id="code"></textarea>
-        <button on-click="handleCheckMyCodeClick">Check my code</button>
+        <div class="validateCode">
+            <paper-button raised class="indigo" on-click="handleCheckMyCodeClick">Check my code</paper-button>
+        </div>
     </template>
     <script>
         class CodeEditor extends Polymer.Element {

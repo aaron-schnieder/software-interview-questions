@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="iq-code-editor.html">
 <link rel="import" href="iq-test-results.html">
@@ -24,12 +25,13 @@
             <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
         </div>
         <div class="card">
-            <h2>Example Solution</h2>
-            <iq-code-editor 
-                id="exampleSolutionCode"
-                content="[[exampleSolution]]">
-            </iq-code-editor>
-            <iq-test-results test-results="{{testResults}}"></iq-test-results>
+            <paper-collapse-item header="Example Solution">
+                <iq-code-editor 
+                    id="exampleSolutionCode"
+                    content="[[exampleSolution]]">
+                </iq-code-editor>
+                <iq-test-results test-results="{{testResults}}"></iq-test-results>
+            </paper-collapse-item>
         </div>
     </template>
     <script>
@@ -61,6 +63,7 @@
                 super.connectedCallback();
                 this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
                 this.runTests(this.computeExampleSolution(), 'testResults');
+                this.areAllCharactersUnique("test string");
             }
 
             checkCode(e) {
@@ -96,21 +99,27 @@
                     let char = theString[i];
 
                     // check to see if this character has already been counted in the hashmap, if so the string does not contain all unique characters
-                    if(charCount.get(char) !== undefined) {
+                    if(charCount.get(char) != undefined) {
                         return false;
                     }
+
+                    // add the char we checked to the hashmap, if we find another instance of this char in the loop we know the string isn't unique
+                    charCount.set(char, 1);
                 }
 
                 return true;
             }
 
             runTests(fn, resultStoreName) {
+                // clear the result store before we start running tests
+                this.set(resultStoreName, []);
+
                 // set of tests to validate if the function solves the problem
                 this.evalTest(fn, "abcdefghijklmnop", 'All unique characters should return true.', true, resultStoreName);
                 this.evalTest(fn, "a", 'Single character should return true.', true, resultStoreName);
-                this.evalTest(fn, "abcddefg", 'String with duplicate character should return false.', true, resultStoreName);
-                this.evalTest(fn, "bb", 'Two character string with duplicate characters should return false.', true, resultStoreName);
-                this.evalTest(fn, "abc def ghikl", 'String with two spaces but no duplicate characters should return false.', true, resultStoreName);
+                this.evalTest(fn, "abcddefg", 'String with duplicate character should return false.', false, resultStoreName);
+                this.evalTest(fn, "bb", 'Two character string with duplicate characters should return false.', false, resultStoreName);
+                this.evalTest(fn, "abc def ghikl", 'String with two spaces but no duplicate characters should return false.', false, resultStoreName);
                 this.evalTest(fn, "", 'No value should return false.', false, resultStoreName);
                 this.evalTest(fn, null, 'Null value should return false.', false, resultStoreName);
                 this.evalTest(fn, undefined, 'undefined should return false.', false, resultStoreName);
@@ -123,9 +132,11 @@
                 }
 
                 // wrap the function string in an IIFE, passing in the param and then eval the string to execute the function
+                let functionToExecute = "("+ fn + ")(" + param + ");";
                 this.push(resultStoreName, {
-                    success: eval("("+ fn + ")(" + param + ");") === expectedResult,
-                    name: name
+                    success: eval(functionToExecute) === expectedResult,
+                    name: name,
+                    description: "Parameter value used: " + param
                 });
             }
         }

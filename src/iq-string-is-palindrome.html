@@ -1,0 +1,106 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-code-editor.html">
+<link rel="import" href="iq-test-results.html">
+<link rel="import" href="iq-question.html">
+
+<dom-module id="iq-string-is-palindrome">
+    <template>
+        <style include="shared-styles">
+             :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <div class="card">
+            <h2>Is the string a palindrome?</h2>
+            <p>
+                Write a function to determine a string is a palindrome.
+            </p>
+            <iq-code-editor
+                id="userLandCode"
+                content="function isPalindrome(theString) {}"
+            ></iq-code-editor>
+            <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
+        </div>
+        <div class="card">
+            <paper-collapse-item header="Example Solution" id="exampleSolutionCollapse" opened="true">
+                <iq-code-editor 
+                    id="exampleSolutionCode"
+                    content="[[exampleSolution]]">
+                </iq-code-editor>
+                <iq-test-results test-results="{{testResults}}"></iq-test-results>
+            </paper-collapse-item>
+        </div>
+    </template>
+    <script>
+        class StringIsPalindrome extends Question {
+            static get is() { return "iq-string-is-palindrome"; }
+
+            static get properties() {
+                return {
+                    exampleSolution: {
+                        type: String,
+                        computed: 'computeExampleSolution()'
+                    }
+                }
+            }
+
+             connectedCallback() {
+                super.connectedCallback();
+                this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
+                this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
+                this.runTests(this.exampleSolution.toString(), 'testResults');
+            }
+
+            computeExampleSolution() {
+                return this.getFunctionStringToEval(this.exampleSolution);
+            }
+
+            exampleSolution(theString) {
+                // validate input
+                if(theString === null || theString === undefined || theString === '') {
+                    return false;
+                }
+
+                // if the string is a single character, it is a valid palindrome
+                if(theString.length == 1) {
+                    return true;
+                }
+
+                // create a pointer to track the beginning of the string and then end of the string
+                // advance each pointer, comparing the characters
+                // if we ever find there is not a match, it is not a palindrome
+                let end = theString.length - 1;
+                for(let start = 0; start < end; start++) {
+                    if(theString[start] != theString[end]) {
+                        return false;
+                    }
+
+                    // decrement the end pointer until we find a char that isn't a space
+                    end = end -1;
+                    while(theString[end] === ' ') {
+                        end = end -1;
+                    }
+                }
+                
+                return true;
+            }
+
+            runTests(fn, resultStoreName) {
+                super.runTests(fn, resultStoreName);
+
+                // set of tests to validate if the function solves the problem
+                this.evalTest(fn, "mom", 'Short palindrome should return true.', true, resultStoreName);
+                this.evalTest(fn, "aaabcccddcccbaaa", 'Long palindrome with repeating characters should return true.', true, resultStoreName);
+                this.evalTest(fn, "a", "Single character string should return true.", true, resultStoreName);
+                this.evalTest(fn, "race car", "Palindrome with a space should return true.", true, resultStoreName);
+                this.evalTest(fn, "", 'No value should return false.', false, resultStoreName);
+                this.evalTest(fn, null, 'Null value should return false.', false, resultStoreName);
+                this.evalTest(fn, undefined, 'undefined should return false.', false, resultStoreName);
+            }
+        }
+        window.customElements.define(StringIsPalindrome.is, StringIsPalindrome);
+    </script>
+</dom-module>

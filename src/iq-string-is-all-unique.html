@@ -64,7 +64,6 @@
                 this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
                 this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
                 this.runTests(this.computeExampleSolution(), 'testResults');
-                this.areAllCharactersUnique("test string");
             }
 
             checkCode(e) {

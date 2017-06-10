@@ -1,0 +1,67 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-code-editor.html">
+<link rel="import" href="iq-test-results.html">
+
+<dom-module id="iq-question">
+    <template>
+    </template>
+    <script>
+        class Question extends Polymer.Element {
+            static get is() { return 'iq-question'; }
+
+            static get properties() {
+                return {
+                    testResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    },
+                    userlandSolutionTestResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    }
+                }
+            }
+
+            /* event handler to check userland solution code */
+            checkCode(e) {
+                this.runTests(e.detail.code, 'userlandSolutionTestResults');
+            }
+
+            /* gets the string representation of the example solution function, including function keyword so the string can be eval'd */
+            getFunctionStringToEval(fn) {
+                return "function " + fn.toString();
+            }
+
+            /* runs all tests for the solutions (userland and example)
+               must be overridden and question specific tests provided */
+            runTests(fn, resultStoreName) {
+                // clear the result store before we start running tests
+                this.set(resultStoreName, []);
+            }
+
+            /* executes an eval of a string containing a function */
+            evalTest(fn, param, name, expectedResult, resultStoreName) {
+                // if the param type is a string, we need to wrap it in single quotes so it is passed as a string when the function is evaled
+                if(typeof param === "string") {
+                    param = "'" + param + "'";
+                }
+
+                // wrap the function string in an IIFE, passing in the param and then eval the string to execute the function
+                let functionToExecute = "("+ fn + ")(" + param + ");";
+                this.push(resultStoreName, {
+                    success: eval(functionToExecute) === expectedResult,
+                    name: name,
+                    description: "Parameter value used: " + param
+                });
+            }
+        }
+
+        window.customElements.define(Question.is, Question);
+    </script>
+</dom-module>

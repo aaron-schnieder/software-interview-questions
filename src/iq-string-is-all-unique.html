@@ -25,7 +25,7 @@
             <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
         </div>
         <div class="card">
-            <paper-collapse-item header="Example Solution">
+            <paper-collapse-item header="Example Solution" id="exampleSolutionCollapse" opened="true">
                 <iq-code-editor 
                     id="exampleSolutionCode"
                     content="[[exampleSolution]]">
@@ -62,6 +62,7 @@
             connectedCallback() {
                 super.connectedCallback();
                 this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
+                this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
                 this.runTests(this.computeExampleSolution(), 'testResults');
                 this.areAllCharactersUnique("test string");
             }

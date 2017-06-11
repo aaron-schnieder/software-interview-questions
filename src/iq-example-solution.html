@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="iq-code-editor.html">
 <link rel="import" href="iq-test-results.html">
@@ -9,14 +10,18 @@
     <template>
         <style include="shared-styles"></style>
         <div class="card">
-            <paper-collapse-item header="Example Solution" id="exampleSolutionCollapse" opened="true">
-                <iq-code-editor 
-                    id="exampleSolutionCode"
-                    content="[[exampleSolution]]"
-                    hide-check-code-button>
-                </iq-code-editor>
-                <iq-test-results test-results="{{testResults}}"></iq-test-results>
-            </paper-collapse-item>
+            <paper-button raised class="indigo" on-click="toggle">Show Example Solution</paper-button>
+            <iron-collapse id="exampleSolutionCollapse" opened="false">
+                <div class="collapse-content">
+                    <h2>Example Solution</h2>
+                    <iq-code-editor 
+                        id="exampleSolutionCode"
+                        content="[[exampleSolution]]"
+                        hide-check-code-button>
+                    </iq-code-editor>
+                    <iq-test-results test-results="{{testResults}}"></iq-test-results>
+                </div>
+            </iron-collapse>
         </div>
         <iq-methodology></iq-methodology>
     </template>
@@ -41,8 +46,12 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                // hack to ensure codemirror solution code is visible after render in paper-collapse component
+                // hack to ensure example solution is collapsed to start
                 this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
+            }
+
+            toggle() {
+                this.$.exampleSolutionCollapse.toggle();
             }
         }
 

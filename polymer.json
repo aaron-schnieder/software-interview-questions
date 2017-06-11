@@ -3,7 +3,10 @@
   "shell": "src/iq-app.html",
   "fragments": [
     "src/iq-default-view.html",
-    "src/iq-view404.html"
+    "src/iq-view404.html",
+    "src/iq-string-is-all-unique.html",
+    "src/iq-string-is-palindrome.html",
+    "src/iq-string-is-pangram.html"
   ],
   "sources": [
     "src/**/*",

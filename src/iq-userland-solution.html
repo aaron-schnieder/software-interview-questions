@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="iq-question.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-code-editor.html">
+<link rel="import" href="iq-test-results.html">
+
+<dom-module id="iq-userland-solution">
+    <template>
+        <style include="shared-styles"></style>
+        <div class="card">
+            <h2>[[questionTitle]]</h2>
+            <p>
+                [[questionDescription]]
+            </p>
+            <iq-code-editor
+                id="userLandCode"
+                content="[[codeEditorContent]]"
+            ></iq-code-editor>
+            <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
+        </div>
+    </template>
+    <script>
+        class UserlandSolution extends Polymer.Element {
+            static get is() { return "iq-userland-solution"; }
+
+            static get properties() {
+                return {
+                    questionTitle : {
+                        type: String
+                    },
+                    questionDescription: {
+                        type: String
+                    },
+                    codeEditorContent: {
+                        type: String
+                    },
+                    userlandSolutionTestResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    }
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.handleCheckCode(e));
+            }
+
+            handleCheckCode(e) {
+                this.dispatchEvent(new CustomEvent('checkCode', {detail: {code: e.detail.code}}));
+            }
+        }
+
+        window.customElements.define(UserlandSolution.is, UserlandSolution);
+    </script>
+</dom-module>

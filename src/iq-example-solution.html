@@ -3,6 +3,7 @@
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="iq-code-editor.html">
 <link rel="import" href="iq-test-results.html">
+<link rel="import" href="iq-methodology.html">
 
 <dom-module id="iq-example-solution">
     <template>
@@ -17,6 +18,7 @@
                 <iq-test-results test-results="{{testResults}}"></iq-test-results>
             </paper-collapse-item>
         </div>
+        <iq-methodology></iq-methodology>
     </template>
     <script>
         class ExampleSolution extends Polymer.Element {

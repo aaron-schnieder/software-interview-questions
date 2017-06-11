@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-code-editor.html">
+<link rel="import" href="iq-test-results.html">
+
+<dom-module id="iq-example-solution">
+    <template>
+        <style include="shared-styles"></style>
+        <div class="card">
+            <paper-collapse-item header="Example Solution" id="exampleSolutionCollapse" opened="true">
+                <iq-code-editor 
+                    id="exampleSolutionCode"
+                    content="[[exampleSolution]]"
+                    hide-check-code-button>
+                </iq-code-editor>
+                <iq-test-results test-results="{{testResults}}"></iq-test-results>
+            </paper-collapse-item>
+        </div>
+    </template>
+    <script>
+        class ExampleSolution extends Polymer.Element {
+            static get is() { return "iq-example-solution"; }
+
+            static get properties() {
+                return {
+                    exampleSolution: {
+                        type: String
+                    },
+                    testResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    },
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                // hack to ensure codemirror solution code is visible after render in paper-collapse component
+                this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
+            }
+        }
+
+        window.customElements.define(ExampleSolution.is, ExampleSolution);
+    </script>
+</dom-module>

@@ -1,8 +1,8 @@
 <link rel="import" href="iq-question.html">
-<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="iq-code-editor.html">
 <link rel="import" href="iq-test-results.html">
+<link rel="import" href="iq-example-solution.html">
 
 <dom-module id="iq-string-is-palindrome">
     <template>
@@ -23,15 +23,7 @@
             ></iq-code-editor>
             <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
         </div>
-        <div class="card">
-            <paper-collapse-item header="Example Solution" id="exampleSolutionCollapse" opened="true">
-                <iq-code-editor 
-                    id="exampleSolutionCode"
-                    content="[[exampleSolution]]">
-                </iq-code-editor>
-                <iq-test-results test-results="{{testResults}}"></iq-test-results>
-            </paper-collapse-item>
-        </div>
+        <iq-example-solution example-solution={{exampleSolution}} test-results={{testResults}}></iq-example-solution>
     </template>
     <script>
         class StringIsPalindrome extends Question {
@@ -49,7 +41,6 @@
              connectedCallback() {
                 super.connectedCallback();
                 this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
-                this.shadowRoot.querySelector('#exampleSolutionCollapse').opened = false;
                 this.runTests(this.exampleSolution.toString(), 'testResults');
             }
 

@@ -1,0 +1,63 @@
+
+<link rel="import" href="iq-question.html"> 
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-example-solution.html">
+<link rel="import" href="iq-userland-solution.html">
+
+<dom-module id="iq-string-is-pangram">
+    <template>
+        <style include="shared-styles"></style>
+        <iq-userland-solution
+            id="userlandSolution"
+            question-title="Is the string a pangram?"
+            question-description="Write a function to determine if a string is a pangram."
+            code-editor-content="function isPangram(theString) {}"
+            userland-solution-test-results={{userlandSolutionTestResults}}>
+        </iq-userland-solution>
+        <iq-example-solution 
+            example-solution=[[exampleSolution]] 
+            test-results={{testResults}}>
+        </iq-example-solution>
+    </template>
+    <script>
+        class StringIsPangram extends Question {
+    
+            static get is() { return "iq-string-is-pangram"; }
+
+            static get properties() {
+                return {
+                    exampleSolution: {
+                        type: String,
+                        computed: 'computeExampleSolution()'
+                    }
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.shadowRoot.querySelector('#userlandSolution').addEventListener('checkCode', e => this.checkCode(e));
+                this.runTests(this.exampleSolution.toString(), 'testResults');
+            }
+
+            computeExampleSolution() {
+                return this.getFunctionStringToEval(this.exampleSolution);
+            }
+
+            exampleSolution(theString) {
+                return true;
+            }
+
+            runTests(fn, resultStoreName) {
+                super.runTests(fn, resultStoreName);
+
+                this.evalTest(fn, "abcdefghnjklmnopqrstuvwxyz", 'All leters of alphabet, should return true.', true, resultStoreName);
+                this.evalTest(fn, "abcdefghnjklmopqrstuvwxyz", 'One letter of alphabet missing, should return false.', false, resultStoreName);
+                this.evalTest(fn, "abcdefghnjklmnopqrstuvwxzz", 'Same character coutn as alphabet but missing y, should return false.', false, resultStoreName);
+                this.evalTest(fn, "a", 'One character, should return false.', false, resultStoreName);
+            }
+       
+        }
+
+        window.customElements.define(StringIsPangram.is, StringIsPangram);
+    </script>
+</dom-module>

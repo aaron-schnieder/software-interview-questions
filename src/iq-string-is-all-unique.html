@@ -1,24 +1,22 @@
 <link rel="import" href="iq-question.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="iq-code-editor.html">
-<link rel="import" href="iq-test-results.html">
 <link rel="import" href="iq-example-solution.html">
+<link rel="import" href="iq-userland-solution.html">
 
 <dom-module id="iq-string-is-all-unique">
     <template>
         <style include="shared-styles"></style>
-        <div class="card">
-            <h2>String With All Unique Characters</h2>
-            <p>
-                Write a function to determine if all characters in a string are unique.
-            </p>
-            <iq-code-editor
-                id="userLandCode"
-                content="function areAllCharactersUnique(theString) {}"
-            ></iq-code-editor>
-            <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
-        </div>
-        <iq-example-solution example-solution={{exampleSolution}} test-results={{testResults}}></iq-example-solution>
+        <iq-userland-solution
+            id="userlandSolution"
+            question-title="String With All Unique Characters"
+            question-description="Write a function to determine if all characters in a string are unique."
+            code-editor-content="function areAllCharactersUnique(theString) {}"
+            userland-solution-test-results={{userlandSolutionTestResults}}>
+        </iq-userland-solution>
+        <iq-example-solution 
+            example-solution=[[exampleSolution]] 
+            test-results={{testResults}}>
+        </iq-example-solution>
     </template>
     <script>
         class StringIsAllUnique extends Question {
@@ -35,7 +33,7 @@
 
             connectedCallback() {
                 super.connectedCallback();
-                this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
+                this.shadowRoot.querySelector('#userlandSolution').addEventListener('checkCode', e => this.checkCode(e));
                 this.runTests(this.exampleSolution.toString(), 'testResults');
             }
 

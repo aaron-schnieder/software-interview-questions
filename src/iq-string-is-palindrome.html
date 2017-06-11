@@ -4,25 +4,25 @@
 <link rel="import" href="iq-test-results.html">
 <link rel="import" href="iq-example-solution.html">
 
-<dom-module id="iq-string-is-all-unique">
+<dom-module id="iq-string-is-palindrome">
     <template>
         <style include="shared-styles"></style>
         <div class="card">
-            <h2>String With All Unique Characters</h2>
+            <h2>Is the string a palindrome?</h2>
             <p>
-                Write a function to determine if all characters in a string are unique.
+                Write a function to determine a string is a palindrome.
             </p>
             <iq-code-editor
                 id="userLandCode"
-                content="function areAllCharactersUnique(theString) {}"
+                content="function isPalindrome(theString) {}"
             ></iq-code-editor>
             <iq-test-results test-results={{userlandSolutionTestResults}}></iq-test-results>
         </div>
         <iq-example-solution example-solution={{exampleSolution}} test-results={{testResults}}></iq-example-solution>
     </template>
     <script>
-        class StringIsAllUnique extends Question {
-            static get is() { return 'iq-string-is-all-unique'; }
+        class StringIsPalindrome extends Question {
+            static get is() { return "iq-string-is-palindrome"; }
 
             static get properties() {
                 return {
@@ -33,7 +33,7 @@
                 }
             }
 
-            connectedCallback() {
+             connectedCallback() {
                 super.connectedCallback();
                 this.shadowRoot.querySelector('#userLandCode').addEventListener('checkCode', e => this.checkCode(e));
                 this.runTests(this.exampleSolution.toString(), 'testResults');
@@ -44,33 +44,32 @@
             }
 
             exampleSolution(theString) {
-
                 // validate input
-                if(theString === '' || theString === undefined || theString === null) {
-                    return false;    
+                if(theString === null || theString === undefined || theString === '') {
+                    return false;
                 }
 
-                // if the string contains just a single character we can return true and saving processing time
+                // if the string is a single character, it is a valid palindrome
                 if(theString.length == 1) {
                     return true;
                 }
 
-                // use a hashmap to count the number of each character in the string
-                let charCount = new Map();
-
-                // iterate through all characters in the string, adding them to the hashmap
-                for(var i =0; i < theString.length; i++) {
-                    let char = theString[i];
-
-                    // check to see if this character has already been counted in the hashmap, if so the string does not contain all unique characters
-                    if(charCount.get(char) != undefined) {
+                // create a pointer to track the beginning of the string and then end of the string
+                // advance each pointer, comparing the characters
+                // if we ever find there is not a match, it is not a palindrome
+                let end = theString.length - 1;
+                for(let start = 0; start < end; start++) {
+                    if(theString[start] != theString[end]) {
                         return false;
                     }
 
-                    // add the char we checked to the hashmap, if we find another instance of this char in the loop we know the string isn't unique
-                    charCount.set(char, 1);
+                    // decrement the end pointer until we find a char that isn't a space
+                    end = end -1;
+                    while(theString[end] === ' ') {
+                        end = end -1;
+                    }
                 }
-
+                
                 return true;
             }
 
@@ -78,17 +77,15 @@
                 super.runTests(fn, resultStoreName);
 
                 // set of tests to validate if the function solves the problem
-                this.evalTest(fn, "abcdefghijklmnop", 'All unique characters should return true.', true, resultStoreName);
-                this.evalTest(fn, "a", 'Single character should return true.', true, resultStoreName);
-                this.evalTest(fn, "abcddefg", 'String with duplicate character should return false.', false, resultStoreName);
-                this.evalTest(fn, "bb", 'Two character string with duplicate characters should return false.', false, resultStoreName);
-                this.evalTest(fn, "abc def ghikl", 'String with two spaces but no duplicate characters should return false.', false, resultStoreName);
+                this.evalTest(fn, "mom", 'Short palindrome should return true.', true, resultStoreName);
+                this.evalTest(fn, "aaabcccddcccbaaa", 'Long palindrome with repeating characters should return true.', true, resultStoreName);
+                this.evalTest(fn, "a", "Single character string should return true.", true, resultStoreName);
+                this.evalTest(fn, "race car", "Palindrome with a space should return true.", true, resultStoreName);
                 this.evalTest(fn, "", 'No value should return false.', false, resultStoreName);
                 this.evalTest(fn, null, 'Null value should return false.', false, resultStoreName);
                 this.evalTest(fn, undefined, 'undefined should return false.', false, resultStoreName);
             }
         }
-
-        window.customElements.define(StringIsAllUnique.is, StringIsAllUnique);
+        window.customElements.define(StringIsPalindrome.is, StringIsPalindrome);
     </script>
 </dom-module>

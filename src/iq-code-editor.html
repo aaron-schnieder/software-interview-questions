@@ -14,9 +14,11 @@
             }
         </style>
         <textarea id="code"></textarea>
-        <div class="validateCode">
-            <paper-button raised class="indigo" on-click="handleCheckMyCodeClick">Check my code</paper-button>
-        </div>
+        <template is="dom-if" if="{{!hideCheckCodeButton}}">
+            <div class="validateCode">
+                <paper-button raised class="indigo" on-click="handleCheckMyCodeClick">Check my code</paper-button>
+            </div>
+        </template>
     </template>
     <script>
         class CodeEditor extends Polymer.Element {
@@ -29,6 +31,10 @@
                     },
                     codeEditor: {
                         type: CodeMirror
+                    },
+                    hideCheckCodeButton: {
+                        type: Boolean,
+                        value: false
                     }
                 }
             }

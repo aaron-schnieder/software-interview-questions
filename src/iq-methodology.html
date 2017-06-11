@@ -1,0 +1,73 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-collapse-item/paper-collapse-item.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="iq-methodology">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <div class="card">
+            <paper-collapse-item header="Answer Methodology">
+                <p>
+                    The purpose of this site isn't to practice possible software engineering interview questions 
+                    so you will have the answers memorized. The chances you will be asked any practice questions 
+                    during an actual interview is low.
+                </p>
+                <p>
+                    The benefit you can get out of this site is practicing the way you approach coding questions 
+                    you may get during an interview. If you build up your brain muscles to analyze and break 
+                    down a problem systematically, it can give you confidence and help you be ready for almost any 
+                    problem.
+                </p>
+                <div class="circle">1</div>
+                <h1>Clarify</h1>
+                <p>
+                    Ask questions to make sure you understand the problem you need to solve. Walk through the state 
+                    of the problem before your solution and what should be the expected outcome.
+                </p>
+                <div class="circle">2</div>
+                <h1>Examples</h1>
+                <p>
+                    Make sure you have some examples of what a correct solution looks like. This will help you design 
+                    the solution and you can use the examples as test case input after you finish coding.
+                </p>
+                <div class="circle">3</div>
+                <h1>Design</h1>
+                <p>
+                    Don't jump right into coding. Think through the data structures that will create the most optimal 
+                    solution. Think through iterations you need and design the solution before you code.
+                </p>
+                <div class="circle">4</div>
+                <h1>Code</h1>
+                <p>
+                    Once you have a clear picture of the problem you need to solve, example "solved" output and 
+                    a design write that code! Pseudo code is the best approach unless your interview wants a specific 
+                    language so you can focus on logic over syntax.
+                </p>
+                <div class="circle">5</div>
+                <h1>Test</h1>
+                <p>
+                    After you finish coding, test your code! Run your examples through your solution and make sure it works. 
+                    Testing can help you identify any mistakes you made or edge cases you missed.
+                </p>
+                <div class="circle">6</div>
+                <h1>Communicate</h1>
+                <p>
+                    Last but not least, communicate as you go. Talk through examples, design, challenges you are running into,  
+                    etc. Keep the communication flowing throughout. This is super important for success, regardless of the 
+                    validity of your solution.
+                </p>
+            </paper-collapse-item>
+        </div>
+    </template>
+    <script>
+        class Methodology extends Polymer.Element {
+            static get is() { return "iq-methodology"; }
+        }
+        window.customElements.define(Methodology.is, Methodology);
+    </script>
+</dom-module>

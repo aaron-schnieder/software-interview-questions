@@ -1,17 +1,17 @@
 # Software Engineering Interview Questions Project
 
-So I thought it would be helpful to create a with example software engineering interview questions to devs exercise their interview brain muscles as they get ready for interviewing. I am super passionate about the Web Components standard and wanted to take Polymer 2.0 for a spin, so this project was a great opportunity to make that happen.
+So I thought it would be helpful to create an app with example software engineering interview questions so devs could exercise their interview brain muscles as they get ready for interviewing. I am super passionate about the Web Components standard and wanted to take Polymer 2.0 for a spin, so this project was a great opportunity to make that happen.
 
 ## Features
-* Collection of example questions that exercise fundamental dev knowledge (data structures, iterators, conditionals)
+* Collection of example interview questions that exercise fundamental dev knowledge to solve (data structures, iterators, conditionals)
 * Users can write the solution to a given question in their browser and test the results
 * Unit tests go along with each question to test the user's solution and evaluate that it achieved the goal
 * Example solutions to the questions provided
 
 #### To Do
 Some additional features that I would like to add:
-* Static analysis of userland solution to catch bad patterns and Big O of space and time
-* Node based perfomance evaluation of userland solution vs example solution
+* Static analysis of userland solution to catch bad patterns and Big O of space and time.
+* Node based performance evaluation of userland solution vs example solution.
 
 ## Setup
 
@@ -55,11 +55,11 @@ You can extend the app by adding more questions and example solutions. Doing thi
 
 1. Create a new iq-question-name.html
 2. Copy contents of iq-question-template.html to the new question
-3. Edit app.html
+3. Edit app.html to import your question html, add an anchor tag to your question and add the view
 4. Update polymer.json fragments to include the new question HTML file
 
 # Web Components FTW
-So you build your web app using one of the most popular GA web frameworks/libraries (Angular, React, etc.). Then a few months later you start reading about the next version of said framework/library that will require a complete re-architecture / re-write of your app (Angular v2). Or you read about the new hotness in the web dev community and all of the awesomeness it brings with it (preact, vuejs, inferno, etc.). 
+So you built your web app using one of the most popular GA web frameworks/libraries (Angular, React, etc.). Then a few months later you start reading about the next version of said framework/library that will require a complete re-architecture / re-write of your app (Angular v2). Or you read about the new hotness in the web dev community and all of the awesomeness it brings with it (preact, vuejs, inferno, etc.). 
 
 How does that feel? Well, it feels a lot like this
 
@@ -81,16 +81,18 @@ The web components spec includes four key ingredients that enable encapsulated, 
 * HTML Templates (along with slots)
 * HTML Imports
 
+Any browser that implements these APIs enables web developers to write rich apps built with small, custom components without the need for proprietary frameworks or libraries.
+
 ## But wait, there's more!!!
 So if web components are standard spec and sooooo awesome, why use Polymer you ask??? Well, because the dream of using the browser platform, and only the browser platform, is closer than ever - but not quite there yet. 
 
-Polymer provides some very helpful glue, tooling and takes care of some of the still painful parts of web components like polyfills for browsers that don't fully support the spec. (I am talking to you Edge!)
+Polymer provides some very helpful glue and tooling that takes care of some of the still painful parts of web components. *But the important bit is that Polymer does it in a non-proprietary way* so the app you write is 99% web components standard with a little Polymer sugar on top. 
 
 ### Why Polymer? 
-The Polymer's team vision is for us not to need Polymer... that is a vision I can get behind. :) They want web developers to use as much as possible from the web platform standards and only add additional secret sause where absolutely necessary. With this in mind, Polymer provides some key functionality in addition to the standard Web Components APIs that make developing web components much nicer.
+The Polymer's team vision is for us not to need Polymer... that is a vision I can get behind. :) They want web developers to use as much as possible from the web platform standards and only add additional secret sauce where absolutely necessary. With this in mind, Polymer provides some key functionality in addition to the standard Web Components APIs that make developing web components much nicer.
 * State management
 * Databinding
-* Polyfills for browsers that don't support all APIs 
+* Polyfills for browsers that don't support all APIs (I am talking to you Edge!)
 * [And a whole lot more](https://www.polymer-project.org/2.0/start/)
 
 ### #Usetheplatform
@@ -99,7 +101,7 @@ One of the other huge benefits of using Polymer, is **you aren't writing a Polym
 The Polymer promotes, supports and designs their APIs to [#usetheplatform](https://twitter.com/search?q=%23usetheplatform&lang=en)
 
 ## ES6
-Last but not least, this app uses ES6 (ES2015) APIs such as `classes`, block scoping via the `let` keyword, `modules` and `Map` key/value pairs. ES6 adds some incredible, powerful new APIs to JavaScript. A lot of the APIs are natively supported in modern browsers so no transpiling or polyfills are necessary.
+Last but not least, this app uses ES6 (ES2015) APIs such as `classes`, block scoping via the `let` keyword, `modules` and `Map` key/value pairs. ES6 adds some incredibly powerful new APIs to JavaScript. A lot of the APIs are natively supported in modern browsers so no transpiling or polyfills are necessary.
 
 ## Janky Browser Support
 So you enjoy a considerable amount of self inflicted pain and still prefer IE11 huh? Well, thanks to Polymer it isn't a problem. One of the many benefits Polymer provides is transpiling / polyfilling APIs where necessary for older browsers.

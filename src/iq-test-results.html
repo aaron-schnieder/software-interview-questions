@@ -9,9 +9,6 @@
 <dom-module id="iq-test-results">
     <template>
         <style is="custom-style" include="shared-styles paper-item-shared-styles">
-            div[role="listbox"] {
-                border: 1px solid #e5e5e5;
-            }
             .avatar {
                 display: inline-block;
                 box-sizing: border-box;
@@ -27,7 +24,7 @@
                 background-color: var(--paper-red-800);
             }
         </style>
-        <div role="listbox">
+        <div>
             <template is="dom-repeat" items="{{testResults}}">
                 <paper-item>
                     <paper-icon-item>

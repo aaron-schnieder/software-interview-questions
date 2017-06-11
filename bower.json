@@ -1,9 +1,9 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "software-engineering-interview-questions-project",
   "authors": [
-    "The Polymer Authors"
+    "Aaron Schnieder"
   ],
-  "license": "https://polymer.github.io/LICENSE.txt",
+  "license": "https://choosealicense.com/licenses/mit/",
   "dependencies": {
     "app-layout": "PolymerElements/app-layout#2.0-preview",
     "app-route": "PolymerElements/app-route#2.0-preview",
@@ -17,7 +17,7 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.7",
     "paper-item": "^2.0.0",
     "paper-button": "^2.0.0",
-    "paper-collapse-item": "^2.0.1"
+    "iron-collapse": "^2.0.0"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3"

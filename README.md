@@ -33,6 +33,7 @@ Now, install [Bower](https://bower.io/) using [npm](https://www.npmjs.com)
     git clone https://github.com/aaron-schnieder/software-interview-questions.git
     cd software-interview-questions
     bower install
+    **Choose option 1 for all bower Polymer dependency questions**
 
 ### Start the development server
 
@@ -41,8 +42,8 @@ routing for the app:
 
     polymer serve
 
-#### **** WARNING - USE CHROME FOR NOW ****
-Something isn't rendering the CodeMirror correctly in Microsoft Edge. [Added an issue and need to fix it.](https://github.com/aaron-schnieder/software-interview-questions/issues/8)
+#### **** WARNING - USE CHROME OR SAFARI FOR NOW ****
+Something isn't rendering the CodeMirror correctly in Microsoft Edge or Firefox. [Added an issue and need to fix it.](https://github.com/aaron-schnieder/software-interview-questions/issues/8)
 
 # iq-question-template.html
 This is the place to start if you want to add a new question to the project. I commented this baby up to explain key concepts of how the questions are built and

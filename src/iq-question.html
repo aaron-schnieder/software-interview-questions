@@ -31,7 +31,15 @@
 
             /* gets the string representation of the example solution function, including function keyword so the string can be eval'd */
             getFunctionStringToEval(fn) {
-                return "function " + fn.toString();
+                // check if the function string already contains "function"
+                let fnString = fn.toString();
+                let fnStart = fnString.substring(0, 8);
+                if(fnStart === "function") {
+                    return fnString;
+                }
+                else {
+                    return "function " + fn.toString();
+                }
             }
 
             /* runs all tests for the solutions (userland and example)

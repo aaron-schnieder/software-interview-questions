@@ -55,7 +55,41 @@
                     theme: "material"
                 });
 
+                // call cleanupContentSpaces to reduce the number of spaces displayed
+                // this is a one time execution cost whent he component is loaded in the DOM
+                this.cleanupContentSpaces();
+
                 this.codeEditor.setValue(this.content);
+            }
+
+            // depending on the IDE, a large amount of spaces are added to the function and when a toString() is 
+            // performed the spaces get out of whack and make the function very hard to read in the code editor.
+            cleanupContentSpaces() {
+                
+                // use a regex to get all blocks of multiple spaces at the start of a line
+                let bigSpacesBlocks = this.content.match(/^( +)(?=\S)/gm);
+
+                try {
+                    // if we found any blocks of multiple spaces, iterate through each one
+                    if(bigSpacesBlocks !== null) {
+                        bigSpacesBlocks.forEach(function(element) {
+
+                            // reduce the number of spaces by a factor of 4
+                            let correctNumSpaces = element.length / 4;
+
+                                // make sure we are working with a number
+                                correctNumSpaces = parseInt(correctNumSpaces);
+                                let correctSpaces = '';
+                                for(let x = 0; x <correctNumSpaces; x++) {
+                                    correctSpaces = correctSpaces + ' ';
+                                }
+                                this.content = this.content.replace(element, correctSpaces);
+
+
+                        }, this);
+                    }
+                }
+                catch(ex) {console.log(ex)};
             }
         }
 

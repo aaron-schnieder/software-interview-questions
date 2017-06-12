@@ -65,7 +65,7 @@ So you built your web app using one of the most popular GA web frameworks/librar
 
 How does that feel? Well, it feels a lot like this
 
-![alt-text](https://media.tenor.com/images/ec46e93f5c45eafb689d5753af27d1f8/tenor.gif "Blow brains out.")
+![alt-text](https://media.giphy.com/media/FNLVgW2HfQ0iQ/giphy.gif "Punches self in face.")
 
 ## Enter Web Components
 The web components spec has actually been around for years. The spec (and the APIs that make up the spec, see below) have been evolving. The big problem has been browser support up until this point. But 2017 has seen some very exciting developments with browser support of the spec in most major browsers.

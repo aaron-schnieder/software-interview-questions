@@ -29,8 +29,9 @@ Now, install [Bower](https://bower.io/) using [npm](https://www.npmjs.com)
 ### Download the repo and restore dependencies
 
     mkdir iq-app
-    cd iq-app       --use ls in bash--
+    cd iq-app      
     git clone https://github.com/aaron-schnieder/software-interview-questions.git
+    cd software-interview-questions
     bower install
 
 ### Start the development server

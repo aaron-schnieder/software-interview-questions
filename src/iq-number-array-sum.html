@@ -8,7 +8,7 @@
         <style include="shared-styles"></style>
         <iq-userland-solution
             id="userlandSolution"
-            question-title="Do any two numbers equal the sum?"
+            question-title="Do any two numbers added together equal the sum?"
             question-description="Write a function to determine a if adding any two numbers in the array equal the sum."
             code-editor-content="function numsEqualSum(numArray, sum) {}"
             userland-solution-test-results={{userlandSolutionTestResults}}>
@@ -43,19 +43,53 @@
             }
 
             exampleSolution(numArray, sum) {
-                console.log(numArray, sum);
+                // check for valid input
+                if(numArray === null 
+                    || numArray === undefined
+                    || sum === null
+                    || sum === undefined) {
+                        return false;
+                    }
+                
+                // fail fast if it isn't possible to find a sum with the parameters received
+                if(numArray.length < 2 || !Array.isArray(numArray)) {
+                    return false;
+                }
+
+                // create a hashmap of all values in the array, which we will use to determine if there is another value 
+                // in the array that can be added to equal the sum
+                /* note: this is not a space efficient solution, we could sort the array first and then use pointers to determine if a sum is possible */
+                var hashmap = new Map();
+                for(let i = 0; i < numArray.length; i++) {
+                    hashmap.set(numArray[i], numArray[i]);
+                }
+
+                for(let x = 0; x < numArray.length; x++) {
+                    // subtract the current number from the array from the sum
+                    let remainder = sum - numArray[x];
+
+                    // check the hashmap to see if the remainder exists in the array
+                    if(hashmap.get(remainder) !== undefined){
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
             runTests(fn, resultStoreName) {
                 super.runTests(fn, resultStoreName);
 
-                this.evalTest(
-                    fn, 
-                    [[4, 2, 9, 1, 45, 3, 7, 23, 17], 10], 
-                    'Array containing two possible combinations to equal the sum (9+1) and (7+3) should return true.', 
-                    true,
-                    resultStoreName
-                );
+                this.evalTest(fn, [[4, 2, 9, 1, 45, 3, 7, 23, 17], 10], 'Array containing two possible combinations to equal the sum (9+1) and (7+3) should return true.', true, resultStoreName);
+                this.evalTest(fn, [[5, 5], 10], 'Array containing two numbers that equal the sum should return true.', true, resultStoreName);
+                this.evalTest(fn, [[5, -5, 15, 7, -8, 13, 1], 10], 'Array containing two numbers that equal the sum, including a negative, should return true.', true, resultStoreName);
+                this.evalTest(fn, [[4, 2, 9, 1, 45, 3, 7, 23, 17], 100], 'Array containing no possible combinations to equal the sum should return false.', false, resultStoreName);
+                this.evalTest(fn, [[10], 10], 'Array containing one number should return false.', false, resultStoreName);
+                this.evalTest(fn, [[], 0], 'Empty array should return false', false, resultStoreName);
+                this.evalTest(fn, [null, 0], 'Null array should return false', false, resultStoreName);
+                this.evalTest(fn, [undefined, 0], 'Undefined array should return false', false, resultStoreName);
+                this.evalTest(fn, [[1, 2, 3], undefined], 'Undefined sum should return false', false, resultStoreName);
+                this.evalTest(fn, [[1, 2, 3], null], 'Null sum should return false', false, resultStoreName);
             }
        
         }

@@ -85,7 +85,7 @@ The web components spec includes four key ingredients that enable encapsulated, 
 
 Any browser that implements these APIs enables web developers to write rich apps built with small, custom components without the need for proprietary frameworks or libraries.
 
-[Web components spec](https://www.webcomponents.org/specs)
+[Web components spec overview](https://www.webcomponents.org/specs)
 
 ## But wait, there's more!!!
 So if web components are standard spec and sooooo awesome, why use Polymer you ask??? Well, because the dream of using the browser platform, and only the browser platform, is closer than ever - but not quite there yet. 

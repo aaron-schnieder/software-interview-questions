@@ -2,6 +2,8 @@
 
 So I thought it would be helpful to create an app with example software engineering interview questions so devs could exercise their interview brain muscles as they get ready for interviewing. I am super passionate about the Web Components standard and wanted to take Polymer 2.0 for a spin, so this project was a great opportunity to make that happen.
 
+[Live site](https://aaron-schnieder.github.io/software-interview-questions) **runs only in Chrome and Safari due to [issue #8](https://github.com/aaron-schnieder/software-interview-questions/issues/8)
+
 ## Features
 * Collection of example interview questions that exercise fundamental dev knowledge to solve (data structures, iterators, conditionals)
 * Users can write the solution to a given question in their browser and test the results

@@ -23,6 +23,9 @@
             .error {
                 background-color: var(--paper-red-800);
             }
+            .testDescription div {
+                white-space: normal;
+            }
         </style>
         <div>
             <template is="dom-repeat" items="{{testResults}}">
@@ -34,7 +37,7 @@
                         <template is="dom-if" if="{{!item.success}}">
                             <div class="avatar error" slot="item-icon"></div>
                         </template>
-                        <paper-item-body two-line>
+                        <paper-item-body two-line class="testDescription">
                             <div>{{item.name}}</div>
                             <div secondary>{{item.description}}</div>
                         </paper-item-body>

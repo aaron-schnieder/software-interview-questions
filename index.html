@@ -58,6 +58,10 @@
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
+    <!-- Promise polyfill needed for 1.0-hybrid mode since neither iron-request 2.x nor
+    webcomponentsjs 0.x include the Promise polyfill. -->
+  <script src="bower_components/es6-promise/es6-promise.auto.min.js"></script>
+
     <!-- Load your application shell -->
     <link rel="import" href="src/iq-app.html">
 

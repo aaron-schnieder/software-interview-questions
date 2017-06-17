@@ -14,7 +14,7 @@
             }
         </style>
         <p><i>JavaScript is the only supported language currently.</i></p>
-        <textarea id="code"></textarea>
+        <div id="code"></div>
         <template is="dom-if" if="{{!hideCheckCodeButton}}">
             <div class="validateCode">
                 <paper-button raised class="indigo" on-click="handleCheckMyCodeClick">Check my code</paper-button>
@@ -47,19 +47,18 @@
             connectedCallback() {
                 super.connectedCallback();
 
-                this.codeEditor = CodeMirror.fromTextArea(this.shadowRoot.querySelector("#code"), 
-                {
-                    mode:  "javascript",
-                    lineNumbers: true,
-                    gutters: ["CodeMirror-linenumbers"],
-                    theme: "material"
-                });
-
                 // call cleanupContentSpaces to reduce the number of spaces displayed
                 // this is a one time execution cost whent he component is loaded in the DOM
                 this.cleanupContentSpaces();
 
-                this.codeEditor.setValue(this.content);
+                // create the instance of CodeMirror
+                let codeDom = this.shadowRoot.querySelector("#code");
+                this.codeEditor = CodeMirror(codeDom, 
+                {
+                    mode:  "javascript",
+                    theme: "material",
+                    value: this.content
+                });
             }
 
             // depending on the IDE, a large amount of spaces are added to the function and when a toString() is 

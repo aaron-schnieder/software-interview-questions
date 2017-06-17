@@ -1,0 +1,36 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="iq-default-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+    </style>
+
+    <div class="card">
+      <h1>Software Engineering Interview Questions Project</h1>
+      <p>
+        So I thought it would be helpful to create a with example software engineering interview questions to devs 
+        exercise their interview brain muscles as they get ready for interviewing. I am super passionate about 
+        the Web Components standard and wanted to take Polymer 2.0 for a spin, so this project was a great opportunity to make that happen.
+      </p>
+      <ul>
+        <li>Collection of example questions that exercise fundamental dev knowledge (data structures, iterators, conditionals)</li>
+        <li>Users can write the solution to a given question in their browser and test the results</li>
+        <li>Unit tests go along with each question to test the user's solution and evaluate that it achieved the goal</li>
+        <li>Example solutions to the questions provided</li>
+      </ul>
+    </div>
+  </template>
+
+  <script>
+    class DefaultView extends Polymer.Element {
+      static get is() { return 'iq-default-view'; }
+    }
+
+    window.customElements.define(DefaultView.is, DefaultView);
+  </script>
+</dom-module>

@@ -1,0 +1,122 @@
+<!--
+*******************************************************************************
+
+This is a template that you can clone to add new software engineering interview 
+questions and example solutions. Do not extend another component from this 
+template, rather copy it and change the relevant bits for the new question.
+
+*******************************************************************************
+--><!-- the following components are required imports for a new instance of iq-question --><link rel="import" href="iq-question.html"> <!-- base custom element we are inheriting from -->
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-example-solution.html">
+<link rel="import" href="iq-userland-solution.html">
+
+<!-- 
+    dom-module is a Polymer specific hook that allows Polymer to register the DOM it contains by id 
+    https://www.polymer-project.org/2.0/docs/api/elements/Polymer.DomModule
+-->
+<dom-module id="iq-question-template"> <!-- id will need to be changed to match the name of the new iq question cmp (minus .html) -->
+    
+    <!--
+        The template contains the DOM that will be placed in the slot for this web component
+        when the web component is included in another component or an app
+    -->
+    <template>
+
+        <!-- 
+            inherit styles from the shared-styles.html import, you can also define custom styles here 
+            that will be scoped to this web component's shadow dom subtree
+            https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot#Partnering_<slot>_with_<template>
+        -->
+        <style include="shared-styles"></style>
+
+        <!-- 
+            web component that handles the user's solution to the question 
+            - properties -
+            question-title: The title of your question
+            question-description: Longer description of the question the user needs create a solution for
+            code-editor-contents: String containing the function that will be populated by default in the user solution code editor
+            userland-solution-test-results: Two-way data-bound to local result store to display user solution test results     
+        -->
+        <iq-userland-solution id="userlandSolution" question-title="Is the string a palindrome?" question-description="Write a function to determine a string is a palindrome." code-editor-content="function isPalindrome(theString) {}" userland-solution-test-results="{{userlandSolutionTestResults}}">
+        </iq-userland-solution>
+
+        <!-- 
+            web component that displays the example solution provided with the question
+            - attributes -
+            example-solution: One way bound to a computed function that returns example solution in the form of a string
+            test-results: Two way data-bound to a local result store to display example solution test results
+        -->
+        <iq-example-solution example-solution="[[exampleSolution]]" test-results="{{testResults}}">
+        </iq-example-solution>
+
+    </template>
+    <script>
+
+        // create a standard ES6 class and inherit from our base iq-question component
+        // https://developers.google.com/web/fundamentals/getting-started/primers/customelements#define
+        class QuestionTemplate extends Question {
+        
+            // static getter to shorthand the "is" of this custom element
+            // needs to match the value in dom-module id
+            static get is() { return "iq-question-template"; }
+       
+            // static getter for this custom element's properties
+            // required property is exampleSolution, which is a computed property that is bound to the iq-example-solution web component instance
+            static get properties() {
+                return {
+                    exampleSolution: {
+                        type: String,
+                        computed: 'computeExampleSolution()'
+                    }
+                }
+            }
+
+            // connectedCalback is a custom element lifecycle event that is called when the element is attached to the document
+            // https://developer.mozilla.org/en-US/docs/Web/Web_Components/Custom_Elements
+            connectedCallback() {
+                
+                // required to call base connectedCallback instance when overriding 
+                super.connectedCallback();
+
+                // add an event listener for the custom event 'checkCode' that will be fired by iq-userland-solution when the user clicks the "Check My Code" button
+                this.shadowRoot.querySelector('#userlandSolution').addEventListener('checkCode', e => this.checkCode(e));
+
+                // run all tests for this question using the example solution function and get results
+                this.runTests(this.exampleSolution.toString(), 'testResults');
+            }
+
+            // required function to get the example solution function as a string, used as a the code editor content value for iq-example-solution 
+            computeExampleSolution() {
+                return this.getFunctionStringToEval(this.exampleSolution);
+            }
+
+            // example solution that solves this interview question
+            // name of the function can be mutated, but references must be updated
+            exampleSolution(theString) {}
+
+            // contains all tests that should be run to verify the validity of the userland and example solutions
+            runTests(fn, resultStoreName) {
+
+                // required to call base runTests from iq-question base custom element when overriding
+                super.runTests(fn, resultStoreName);
+
+                // set of tests to validate if the function solves the problem
+                // function string will be evaled inside an IIFE with the paramer provided
+                this.evalTest(
+                    fn, // string representation of the function to be tested via eval
+                    "paramValue", // parameter value to be passed to the string
+                    'Short description of the test.', // short description of the test to be displayed to the user
+                    true, // expected result of the solution function
+                    resultStoreName // local result store to put the results into
+                );
+            }
+       
+        }
+
+        // register the new custom element via the standard custom element API
+        // https://developer.mozilla.org/en-US/docs/Web/Web_Components/Custom_Elements
+        // Change this to match the name of the custom element class
+        window.customElements.define(QuestionTemplate.is, QuestionTemplate);
+    </script>
+</dom-module>

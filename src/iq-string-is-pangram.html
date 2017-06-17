@@ -1,0 +1,89 @@
+<link rel="import" href="iq-question.html"> 
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="iq-example-solution.html">
+<link rel="import" href="iq-userland-solution.html">
+
+<dom-module id="iq-string-is-pangram">
+    <template>
+        <style include="shared-styles"></style>
+        <iq-userland-solution id="userlandSolution" question-title="Is the string a pangram?" question-description="Write a function to determine if a string is a pangram." code-editor-content="function isPangram(theString) {}" userland-solution-test-results="{{userlandSolutionTestResults}}">
+        </iq-userland-solution>
+        <iq-example-solution example-solution="[[exampleSolution]]" test-results="{{testResults}}">
+        </iq-example-solution>
+    </template>
+    <script>
+        class StringIsPangram extends Question {
+    
+            static get is() { return "iq-string-is-pangram"; }
+
+            static get properties() {
+                return {
+                    exampleSolution: {
+                        type: String,
+                        computed: 'computeExampleSolution()'
+                    }
+                }
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.shadowRoot.querySelector('#userlandSolution').addEventListener('checkCode', e => this.checkCode(e));
+                this.runTests(this.exampleSolution.toString(), 'testResults');
+            }
+
+            computeExampleSolution() {
+                return this.getFunctionStringToEval(this.exampleSolution);
+            }
+
+            exampleSolution(theString) {
+                // first off, test for valid input
+                if(theString === null || theString === undefined || theString === '') {
+                    return false;
+                }
+
+                // now test to see if we have the minimum number of characters, there are
+                // 26 letters in the english alphabet, so we need at least that many to have 
+                // a pangram
+                if(theString.length < 26) {
+                    return false;
+                }
+
+                // convert the string to lower case so we have a fixed ascii range to work with
+                theString = theString.toLowerCase();
+
+                // create a hashmap to keep track of each character we find by ascii value
+                let hashmap = new Map();
+
+                // iterate through each character in the string and add it to the hashmap with the ascii value as the index
+                for(let i = 0; i < theString.length; i++) {
+                    hashmap.set(theString.charCodeAt(i), 1); // just the value to 1 because we want to know we found it, but don't care how many times we found the letter
+                }
+
+                // now iterate through all letters in the english alphabet by ascii value and make each one is in the hashmap
+                for(let x = 97; x < 123; x++) {
+                    if(hashmap.get(x) === undefined) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            runTests(fn, resultStoreName) {
+                super.runTests(fn, resultStoreName);
+
+                this.evalTest(fn, "abcdefghijklmnopqrstuvwxyz", 'All leters of alphabet, should return true.', true, resultStoreName);
+                this.evalTest(fn, "ybpdetgzijklmnocqrsfuvwxah", 'All leters of alphabet in random order, should return true.', true, resultStoreName);
+                this.evalTest(fn, "abcdefghnjklmopqrstuvwxyz", 'One letter of alphabet missing, should return false.', false, resultStoreName);
+                this.evalTest(fn, "abcdefghnjklmnopqrstuvwxzz", 'Same character count as alphabet but missing y, should return false.', false, resultStoreName);
+                this.evalTest(fn, "a", 'One character, should return false.', false, resultStoreName);
+                this.evalTest(fn, "", 'No value should return false.', false, resultStoreName);
+                this.evalTest(fn, null, 'Null value should return false.', false, resultStoreName);
+                this.evalTest(fn, undefined, 'undefined should return false.', false, resultStoreName);
+            }
+       
+        }
+
+        window.customElements.define(StringIsPangram.is, StringIsPangram);
+    </script>
+</dom-module>

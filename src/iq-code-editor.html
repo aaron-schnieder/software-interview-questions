@@ -1,0 +1,97 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="codemirror-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<script type="text/javascript" src="../bower_components/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="../bower_components/codemirror/mode/javascript/javascript.js"></script>
+
+<dom-module id="iq-code-editor">
+    <template>
+        <style include="codemirror-styles">
+            :host, .validateCode  {
+                display: block;
+                padding: 16px 0px;
+            }
+        </style>
+        <p><i>JavaScript is the only supported language currently.</i></p>
+        <div id="code"></div>
+        <template is="dom-if" if="{{!hideCheckCodeButton}}">
+            <div class="validateCode">
+                <paper-button raised="" class="indigo" on-click="handleCheckMyCodeClick">Check my code</paper-button>
+            </div>
+        </template>
+    </template>
+    <script>
+        class CodeEditor extends Polymer.Element {
+            static get is() { return "iq-code-editor"; }
+
+            static get properties() {
+                return {
+                    content: {
+                        type: String
+                    },
+                    codeEditor: {
+                        type: CodeMirror
+                    },
+                    hideCheckCodeButton: {
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            }
+
+            handleCheckMyCodeClick() {
+                this.dispatchEvent(new CustomEvent('checkCode', {detail: {code: this.codeEditor.getValue()}}));
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+
+                // call cleanupContentSpaces to reduce the number of spaces displayed
+                // this is a one time execution cost whent he component is loaded in the DOM
+                this.cleanupContentSpaces();
+
+                // create the instance of CodeMirror
+                let codeDom = this.shadowRoot.querySelector("#code");
+                this.codeEditor = CodeMirror(codeDom, 
+                {
+                    mode:  "javascript",
+                    theme: "material",
+                    value: this.content
+                });
+            }
+
+            // depending on the IDE, a large amount of spaces are added to the function and when a toString() is 
+            // performed the spaces get out of whack and make the function very hard to read in the code editor.
+            cleanupContentSpaces() {
+                
+                // use a regex to get all blocks of multiple spaces at the start of a line
+                let bigSpacesBlocks = this.content.match(/^( +)(?=\S)/gm);
+
+                try {
+                    // if we found any blocks of multiple spaces, iterate through each one
+                    if(bigSpacesBlocks !== null) {
+                        bigSpacesBlocks.forEach(function(element) {
+
+                            // reduce the number of spaces by a factor of 4
+                            let correctNumSpaces = element.length / 4;
+
+                                // make sure we are working with a number
+                                correctNumSpaces = parseInt(correctNumSpaces);
+                                let correctSpaces = '';
+                                for(let x = 0; x <correctNumSpaces; x++) {
+                                    correctSpaces = correctSpaces + ' ';
+                                }
+                                this.content = this.content.replace(element, correctSpaces);
+
+
+                        }, this);
+                    }
+                }
+                catch(ex) {console.log(ex)};
+            }
+        }
+
+        window.customElements.define(CodeEditor.is, CodeEditor);
+    </script>
+</dom-module>

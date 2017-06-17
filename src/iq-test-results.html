@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="codemirror-styles.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-shared-styles.html">
+
+<dom-module id="iq-test-results">
+    <template>
+        <style is="custom-style" include="shared-styles paper-item-shared-styles">
+            .avatar {
+                display: inline-block;
+                box-sizing: border-box;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: var(--paper-amber-500);
+            }
+            .success {
+                background-color: var(--paper-green-300);
+            }
+            .error {
+                background-color: var(--paper-red-800);
+            }
+            .testDescription div {
+                white-space: normal;
+            }
+        </style>
+        <div role="listbox">
+            <template is="dom-repeat" items="{{testResults}}">
+                <paper-icon-item>
+                    <template is="dom-if" if="{{item.success}}">
+                        <div class="avatar success" slot="item-icon"></div>
+                    </template>
+                    <template is="dom-if" if="{{!item.success}}">
+                        <div class="avatar error" slot="item-icon"></div>
+                    </template>
+                    <paper-item-body two-line="" class="testDescription">
+                        <div>{{item.name}}</div>
+                        <div secondary="">{{item.description}}</div>
+                    </paper-item-body>
+                </paper-icon-item>
+            </template>
+        </div>
+    </template>
+    <script>
+        class TestResults extends Polymer.Element {
+            static get is() { return 'iq-test-results'; }
+
+            static get properties() {
+                return {
+                    testResults: {
+                        type: Array,
+                        value() {
+                            return []
+                        }
+                    }
+                }
+            }
+        }
+
+        window.customElements.define(TestResults.is, TestResults);
+    </script>
+</dom-module>

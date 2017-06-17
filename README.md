@@ -2,7 +2,7 @@
 
 So I thought it would be helpful to create an app with example software engineering interview questions so devs could exercise their interview brain muscles as they get ready for interviewing. I am super passionate about the Web Components standard and wanted to take Polymer 2.0 for a spin, so this project was a great opportunity to make that happen.
 
-[Live site](https://aaron-schnieder.github.io/software-interview-questions) **runs only in Chrome and Safari due to [issue #8](https://github.com/aaron-schnieder/software-interview-questions/issues/8)
+[Live site](https://aaron-schnieder.github.io/software-interview-questions)
 
 ## Features
 * Collection of example interview questions that exercise fundamental dev knowledge to solve (data structures, iterators, conditionals)
@@ -43,9 +43,6 @@ This command serves the app at `http://localhost:8081` and provides basic URL
 routing for the app:
 
     polymer serve
-
-#### **** WARNING - USE CHROME OR SAFARI FOR NOW ****
-Something isn't rendering the CodeMirror correctly in Microsoft Edge or Firefox. [Added an issue and need to fix it.](https://github.com/aaron-schnieder/software-interview-questions/issues/8)
 
 # iq-question-template.html
 This is the place to start if you want to add a new question to the project. I commented this baby up to explain key concepts of how the questions are built and

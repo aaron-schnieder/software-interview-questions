@@ -47,6 +47,11 @@
             connectedCallback() {
                 super.connectedCallback();
 
+                // call cleanupContentSpaces to reduce the number of spaces displayed
+                // this is a one time execution cost whent he component is loaded in the DOM
+                this.cleanupContentSpaces();
+
+                // create the instance of CodeMirror
                 let codeDom = this.shadowRoot.querySelector("#code");
                 this.codeEditor = CodeMirror(codeDom, 
                 {
@@ -54,10 +59,6 @@
                     theme: "material",
                     value: this.content
                 });
-
-                // call cleanupContentSpaces to reduce the number of spaces displayed
-                // this is a one time execution cost whent he component is loaded in the DOM
-                this.cleanupContentSpaces();
             }
 
             // depending on the IDE, a large amount of spaces are added to the function and when a toString() is 

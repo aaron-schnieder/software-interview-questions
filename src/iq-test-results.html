@@ -27,22 +27,20 @@
                 white-space: normal;
             }
         </style>
-        <div>
+        <div role="listbox">
             <template is="dom-repeat" items="{{testResults}}">
-                <paper-item>
-                    <paper-icon-item>
-                        <template is="dom-if" if="{{item.success}}">
-                            <div class="avatar success" slot="item-icon"></div>
-                        </template>
-                        <template is="dom-if" if="{{!item.success}}">
-                            <div class="avatar error" slot="item-icon"></div>
-                        </template>
-                        <paper-item-body two-line class="testDescription">
-                            <div>{{item.name}}</div>
-                            <div secondary>{{item.description}}</div>
-                        </paper-item-body>
-                    </paper-icon-item>
-                </paper-item>
+                <paper-icon-item>
+                    <template is="dom-if" if="{{item.success}}">
+                        <div class="avatar success" slot="item-icon"></div>
+                    </template>
+                    <template is="dom-if" if="{{!item.success}}">
+                        <div class="avatar error" slot="item-icon"></div>
+                    </template>
+                    <paper-item-body two-line class="testDescription">
+                        <div>{{item.name}}</div>
+                        <div secondary>{{item.description}}</div>
+                    </paper-item-body>
+                </paper-icon-item>
             </template>
         </div>
     </template>

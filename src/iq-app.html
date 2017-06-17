@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="iq-icons.html">
 
 <link rel="lazy-import" href="iq-default-view.html">
@@ -70,6 +71,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+
+      .got-it-button {
+        text-transform: none;
+        color: white;
+      }
+
+      #unsupportedBrowserToast {
+        --paper-toast-background-color: #FFC107;
+        --paper-toast-color: #424242;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -116,6 +127,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
+    <paper-toast 
+      id="unsupportedBrowserToast" 
+      text="This site works best in Chrome or Safari." 
+      duration="0">
+      <paper-button class="got-it-button" onclick="unsupportedBrowserToast.toggle()">Got it!</paper-button>
+    </paper-toast>
   </template>
 
   <script>
@@ -164,6 +181,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Close a non-persistent drawer when the page & route are changed.
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
+        }
+
+        // If the user is running Edge, Firefox or *gasp* IE, let them know they should be using
+        // Chrome or Safari for best functionality
+        if(window.navigator.userAgent.includes("Edge")
+          || window.navigator.userAgent.includes("Firefox")
+          || window.navigator.userAgent.includes("MSIE")) {
+          this.$.unsupportedBrowserToast.open();
         }
       }
 
